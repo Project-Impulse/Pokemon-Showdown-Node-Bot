@@ -247,4 +247,58 @@ join: 'joingame',
               return this.sendReply(text);
              }
          },
+                   tta: 'teamtriviaanswer',
+    teamtriviaanswer: function(target, user, room){
+        if(room.id !== triviaRoom) return false;
+                if (game !== "ttrivia") return false;
+                if (started != true) return false;
+        if (!target) return false;
+        target = (target);
+                var userid = toId(user);
+                var i;
+                var gotteam = false;
+                var theuser;
+       
+                for(i = 0 ;i < teamOne.length;i+=1){
+                  if (gotteam == true){break;}
+                  if(user == teamOne[i]){
+                  theuser = "Team Ash";
+                  gotteam = true;
+                  break;
+                  }
+                }
+ 
+                for(i = 0 ;i < teamTwo.length;i+=1){
+                  if (gotteam == true){break;}
+                  if(user == teamTwo[i]){
+                  theuser = "Team Conbeef";
+                  gotteam = true;
+                  break;
+                  }
+                }
+ 
+       
+        if(target == triviaA){
+            if (triviaPoints.indexOf(theuser) > -1){
+                triviaA = '';
+                triviaPoints[triviaPoints.indexOf(theuser) + 1] += 1;
+                if (triviaPoints[triviaPoints.indexOf(theuser) + 1] >= 10) {
+                    clearInterval(triviaTimer);
+                    this.add('<b>Congrats to ' + theuser + ' for winning Trivia!</b>');
+                    //this.say(room,'/msg lustrousash,' + user + ' have been awarded **2 Points** for winning trivia')
+                    triviaON = false;
+                                        game = "none";
+                                        started = false;
+                                        requiredPlayers = 0;
+                    return false;
+                }
+                this.add('<b>' + user + '</b> got the right answer,' +"<b>"+theuser+"</b>"+ ' has <b>' + triviaPoints[triviaPoints.indexOf(theuser) + 1] + '</b> Triviapoints!');
+            } else {
+                triviaA = '';
+                triviaPoints[triviaPoints.length] = theuser;
+                triviaPoints[triviaPoints.length] = 1;
+                this.add('<b>' + user + '</b> got the right answer,' +"<b>"+theuser+"</b>"+ ' has <b>' + triviaPoints[triviaPoints.indexOf(theuser) + 1] + '</b> Triviapoint!');
+            }
+        }
+    },
 };
